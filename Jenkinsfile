@@ -44,15 +44,15 @@ pipeline {
     //   }
     // }
 
-    // stage('Docker Build and Push') {
-    //   steps {
-    //     withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
-    //       sh 'printenv'
-    //       sh 'sudo docker build -t weizheng78/numeric-app:""$GIT_COMMIT"" .'
-    //       sh 'docker push weizheng78/numeric-app:""$GIT_COMMIT""'
-    //     }
-    //   }
-    // }
+    stage('Docker Build and Push') {
+      steps {
+        withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
+          sh 'printenv'
+          sh 'sudo docker build -t weizheng78/numeric-app:""$GIT_COMMIT"" .'
+          sh 'docker push weizheng78/numeric-app:""$GIT_COMMIT""'
+        }
+      }
+    }
     // stage('K8S Deployment - DEV') {
     //   steps {
     //     parallel(
