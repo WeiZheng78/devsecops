@@ -31,29 +31,19 @@ pipeline {
 
     stage('SonarQube - SAST') {
       steps {
+        withSonarQubeEnv('SonarQube') {
           sh "mvn sonar:sonar \
-  -Dsonar.projectKey=numeric-application \
-  -Dsonar.host.url=http://192.168.12.20:9000 \
-  -Dsonar.login=32a57ca686020d2c3c2453e05f0ec9b673925e6b"
+          -Dsonar.projectKey=numeric-application \
+          -Dsonar.host.url=http://192.168.12.20:9000 \
+          -Dsonar.login=32a57ca686020d2c3c2453e05f0ec9b673925e6b"
+        }
+        timeout(time: 2, unit: 'MINUTES') {
+          script {
+            waitForQualityGate abortPipeline: true
+          }
+        }
       }
     }
-
-    // stage('SonarQube - SAST') {
-    //   steps {
-    //     withSonarQubeEnv('SonarQube') {
-    //       sh "mvn clean verify sonar:sonar \
-    //         -Dsonar.projectKey=numeric-applicatoin \
-    //         -Dsonar.projectName='numeric-applicatoin' \
-    //         -Dsonar.host.url=http://192.168.12.20:9000 \
-    //         -Dsonar.token=sqp_6bd0de2b4cc032626c98e6ab818db00439042fd9"
-    //     }
-    //     timeout(time: 2, unit: 'MINUTES') {
-    //       script {
-    //         waitForQualityGate abortPipeline: true
-    //       }
-    //     }
-    //   }
-    // }
     
     stage('Docker Build and Push') {
       steps {
