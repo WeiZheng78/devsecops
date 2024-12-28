@@ -36,6 +36,7 @@ pipeline {
             -Dsonar.projectName='numeric-applicatoin' \
             -Dsonar.host.url=http://192.168.12.20:9000 \
             -Dsonar.token=sqp_6bd0de2b4cc032626c98e6ab818db00439042fd9"
+      }
     }
 
     // stage('SonarQube - SAST') {
